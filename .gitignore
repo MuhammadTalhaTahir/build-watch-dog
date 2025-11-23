@@ -1,0 +1,28 @@
+# Virtual environment
+venv/
+env/
+.env/
+
+# Compiled Python files
+*.pyc
+__pycache__/
+
+# IDE-specific files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Temporary files
+*.log
+*.tmp
+*.bak
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+
+# Operating System files
+.DS_Store
+Thumbs.db
