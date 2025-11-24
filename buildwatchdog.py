@@ -171,7 +171,15 @@ class BuildWatchDog:
         if phases:
             for phase in phases:
                 phase_name = phase.get("phaseType", "Unknown")
-                phase_status = phase.get("phaseStatus", "")
+                phase_status = phase.get("phaseStatus")
+                
+                # Handle None or empty status
+                if not phase_status:
+                    # If overall build succeeded and this is COMPLETED phase, mark it succeeded
+                    if phase_name == "COMPLETED" and status == "SUCCEEDED":
+                        phase_status = "SUCCEEDED"
+                    else:
+                        phase_status = "PENDING"
                 
                 if phase_status == "SUCCEEDED":
                     icon = "[green]✓[/green]"
@@ -182,13 +190,19 @@ class BuildWatchDog:
                 elif phase_status == "FAILED":
                     icon = "[red]✗[/red]"
                     status_style = "red"
+                elif phase_status == "STOPPED":
+                    icon = "[yellow]⏸[/yellow]"
+                    status_style = "yellow"
+                elif phase_status == "FAULT" or phase_status == "TIMED_OUT":
+                    icon = "[red]✗[/red]"
+                    status_style = "red"
                 else:
                     icon = "[dim]○[/dim]"
                     status_style = "dim"
                 
                 timeline.add_row(
                     f"{icon} {phase_name}",
-                    Text(phase_status or "PENDING", style=status_style)
+                    Text(phase_status, style=status_style)
                 )
         else:
             timeline.add_row("[dim]No phase information available[/dim]", "")
@@ -280,6 +294,16 @@ class BuildWatchDog:
                     
                     # Exit if build is complete
                     if current_status in ["SUCCEEDED", "FAILED", "STOPPED", "FAULT", "TIMED_OUT"]:
+                        # Do one final fetch to ensure we have the complete phase information
+                        time.sleep(3)  # Longer pause to let AWS finalize
+                        final_build_info = self.aws.get_build_info(self.build_id)
+                        if final_build_info:
+                            live.update(self.create_display(final_build_info))
+                        
+                        # Debug: uncomment to see raw phase data
+                        # console.print("\n[dim]Debug - Final phases:[/dim]")
+                        # console.print(final_build_info.get("phases", []))
+                        
                         console.print(f"\n[bold]Build {current_status}![/bold]")
                         break
                     
