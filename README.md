@@ -1,6 +1,6 @@
 # 🐕 BuildWatchDog
 
-> A modern, elegant CLI tool to monitor AWS CodeBuild jobs in real-time from your terminal
+> A elegant CLI tool to monitor AWS CodeBuild jobs in real-time from your terminal
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -9,21 +9,21 @@
 BuildWatchDog eliminates the need to constantly refresh the AWS Console by bringing real-time CodeBuild monitoring directly to your terminal. Get instant updates, beautiful visualizations, and desktop notifications—all while staying in your workflow.
 
 
-## ✨ Features
+## Features
 
-- 🎯 **Real-time Monitoring** - Track AWS CodeBuild jobs with live status updates
-- 🎨 **Beautiful TUI** - Rich terminal interface with color-coded phases and status indicators
-- 🔔 **Desktop Notifications** - Native notifications for build status changes (macOS & Linux)
-- 🔒 **Secure** - Uses your local AWS CLI credentials—no API keys or embedded credentials
-- ⚡ **Lightweight** - Pure Python with minimal dependencies
-- 🛡️ **Robust Error Handling** - Graceful handling of network issues, credential errors, and timeouts
-- 🔄 **Cross-Platform** - Works seamlessly on macOS and Linux
+- **Real-time Monitoring** - Track AWS CodeBuild jobs with live status updates
+- **Beautiful TUI** - Rich terminal interface with color-coded phases and status indicators
+- **Desktop Notifications** - Native notifications for build status changes (macOS & Linux)
+- **Secure** - Uses your local AWS CLI credentials—no API keys or embedded credentials
+- **Lightweight** - Pure Python with minimal dependencies
+- **Robust Error Handling** - Graceful handling of network issues, credential errors, and timeouts
+- **Cross-Platform** - Works seamlessly on macOS and Linux
 
-## 📦 Installation
+## Installation
 
 ### Prerequisites
 
-- Python 3.8 or higher
+- Python 3.10 or higher
 - AWS CLI installed and configured ([Installation Guide](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html))
 - Valid AWS credentials with CodeBuild read permissions
 
@@ -44,7 +44,7 @@ chmod +x buildwatchdog.py
 pip install -e .
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ```bash
 # Monitor a build (replace with your actual build ID)
@@ -60,7 +60,7 @@ python buildwatchdog.py --build-id <BUILD_ID> --profile production
 python buildwatchdog.py --build-id <BUILD_ID> --notify desktop
 ```
 
-## 📖 Usage
+## Usage
 
 ```
 buildwatchdog.py --build-id <BUILD_ID> [OPTIONS]
@@ -75,7 +75,7 @@ Optional Arguments:
   -h, --help               Show help message
 ```
 
-## 🎯 How It Works
+## How It Works
 
 1. **Launch** - Start BuildWatchDog with your CodeBuild Build ID
 2. **Monitor** - Watch real-time phase progression in a beautiful terminal interface
@@ -96,35 +96,35 @@ Optional Arguments:
 - ✅ FINALIZING
 - ✅ COMPLETED
 
-## 🎨 Interface Overview
+## Interface Overview
 
 ```
 ┌─────────────────────────────── BuildWatchDog ────────────────────────────────┐
-│ BuildWatchDog | Build: RevenueLeakage... | Project: RevenueLeakageManualDeploy     │
-│ Status: 🟢 SUCCEEDED                                                               │
-│                                                                                    │
-│ Build Phases:                                                                      │
-│ ╭────────────────────────────────────────────────────────────────────────╮  │
-│ │ ✓ SUBMITTED          SUCCEEDED                                                │  │
-│ │ ✓ QUEUED             SUCCEEDED                                                │  │
-│ │ ✓ PROVISIONING       SUCCEEDED                                                │  │
-│ │ ✓ DOWNLOAD_SOURCE    SUCCEEDED                                                │  │
-│ │ ✓ BUILD              SUCCEEDED                                                │  │
-│ │ ✓ POST_BUILD         SUCCEEDED                                                │  │
-│ │ ✓ UPLOAD_ARTIFACTS   SUCCEEDED                                                │  │
-│ │ ✓ COMPLETED          SUCCEEDED                                                │  │
-│ ╰────────────────────────────────────────────────────────────────────────╯  │
-│                                                                                    │
-│ Recent Events:                                                                     │
-│ ╭────────────────────────────────────────────────────────────────────────╮  │
-│ │ Time      Event                                                               │  │
-│ │ 11:14:16  Started monitoring - IN_PROGRESS                                    │  │
-│ │ 11:15:51  Status changed to SUCCEEDED                                         │  │
-│ ╰────────────────────────────────────────────────────────────────────────╯  │
-└──────────────────── Press Ctrl+C to quit | Interval: 10s ──────────────────────┘
+│ BuildWatchDog | Build: RevenueLeakage... | Project: RevenueLeakageManualDeploy│
+│ Status: 🟢 SUCCEEDED                                                          │
+│                                                                                │
+│ Build Phases:                                                                 │
+│ ╭────────────────────────────────────────────────────────────────────────╮   │
+│ │ ✓ SUBMITTED          SUCCEEDED                                         │   │
+│ │ ✓ QUEUED             SUCCEEDED                                         │   │
+│ │ ✓ PROVISIONING       SUCCEEDED                                         │   │
+│ │ ✓ DOWNLOAD_SOURCE    SUCCEEDED                                         │   │
+│ │ ✓ BUILD              SUCCEEDED                                         │   │
+│ │ ✓ POST_BUILD         SUCCEEDED                                         │   │
+│ │ ✓ UPLOAD_ARTIFACTS   SUCCEEDED                                         │   │
+│ │ ✓ COMPLETED          SUCCEEDED                                         │   │
+│ ╰────────────────────────────────────────────────────────────────────────╯   │
+│                                                                                │
+│ Recent Events:                                                                │
+│ ╭────────────────────────────────────────────────────────────────────────╮   │
+│ │ Time      Event                                                        │   │
+│ │ 11:14:16  Started monitoring - IN_PROGRESS                            │   │
+│ │ 11:15:51  Status changed to SUCCEEDED                                 │   │
+│ ╰────────────────────────────────────────────────────────────────────────╯   │
+└──────────────────── Press Ctrl+C to quit | Interval: 10s ────────────────────┘
 ```
 
-## 🔧 Configuration
+## Configuration
 
 ### AWS Credentials
 
@@ -157,7 +157,7 @@ Your AWS credentials need the following permission:
 }
 ```
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
 
@@ -167,13 +167,13 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📝 Requirements
+## Requirements
 
 ```
 rich>=13.0.0
 ```
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### "AWS CLI not found"
 Install the AWS CLI: https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
@@ -192,20 +192,20 @@ Verify the build ID format: `project-name:uuid`
   sudo yum install libnotify           # RHEL/CentOS
   ```
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Built with [Rich](https://github.com/Textualize/rich) - Beautiful terminal formatting
 - Inspired by the need for better developer tooling around AWS CodeBuild
 
-## 📬 Contact
+## Contact
 
-- GitHub: [@yourusername](https://github.com/yourusername)
-- Issues: [GitHub Issues](https://github.com/yourusername/buildwatchdog/issues)
+- GitHub: [@](https://github.com/MuhammadTalhaTahir)
+- Issues: [GitHub Issues](https://github.com/MuhammadTalhaTahir/buildwatchdog/issues)
 
 ---
 
-Made with ❤️ for developers who live in the terminal
+Made with care for developers who live in the terminal
