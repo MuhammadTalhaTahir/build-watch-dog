@@ -131,9 +131,9 @@ class BuildWatchDog:
         self.last_status = None
         self.project_name = ""
         
-    def create_display(self, build_info: Dict) -> Layout:
+    def create_display(self, build_info: Dict) -> Panel:
         """Create the TUI display layout"""
-        layout = Layout()
+        from rich.console import Group
         
         # Parse build information
         status = build_info.get("buildStatus", "UNKNOWN")
@@ -150,48 +150,81 @@ class BuildWatchDog:
             "TIMED_OUT": "🔴"
         }
         
-        # Header
-        header = f"[bold cyan]BuildWatchDog[/bold cyan] | Build: {self.build_id[:12]}... | Project: {self.project_name}"
-        status_line = f"Status: {status_emoji.get(status, '⚪')} [bold]{status}[/bold]"
+        # Header section
+        header_text = Text()
+        header_text.append("BuildWatchDog", style="bold cyan")
+        header_text.append(" | Build: ", style="white")
+        header_text.append(f"{self.build_id[:20]}...", style="dim")
+        header_text.append(" | Project: ", style="white")
+        header_text.append(self.project_name, style="bold yellow")
         
-        # Timeline/Progress
-        timeline = Table(show_header=False, box=box.SIMPLE, padding=(0, 1))
-        timeline.add_column("Phase", style="cyan")
+        status_text = Text()
+        status_text.append("Status: ", style="white")
+        status_text.append(f"{status_emoji.get(status, '⚪')} ", style="white")
+        status_text.append(status, style="bold green" if status == "SUCCEEDED" else "bold yellow" if status == "IN_PROGRESS" else "bold red")
+        
+        # Timeline/Progress table
+        timeline = Table(show_header=False, box=box.ROUNDED, padding=(0, 1), expand=False)
+        timeline.add_column("Phase", style="cyan", no_wrap=True)
         timeline.add_column("Status", style="green")
         
-        for phase in phases:
-            phase_name = phase.get("phaseType", "Unknown")
-            phase_status = phase.get("phaseStatus", "")
-            
-            if phase_status == "SUCCEEDED":
-                icon = "[green]✓[/green]"
-            elif phase_status == "IN_PROGRESS":
-                icon = "[yellow]⏳[/yellow]"
-            elif phase_status == "FAILED":
-                icon = "[red]✗[/red]"
-            else:
-                icon = "[dim]○[/dim]"
-            
-            timeline.add_row(f"{icon} {phase_name}", phase_status)
+        if phases:
+            for phase in phases:
+                phase_name = phase.get("phaseType", "Unknown")
+                phase_status = phase.get("phaseStatus", "")
+                
+                if phase_status == "SUCCEEDED":
+                    icon = "[green]✓[/green]"
+                    status_style = "green"
+                elif phase_status == "IN_PROGRESS":
+                    icon = "[yellow]⏳[/yellow]"
+                    status_style = "yellow"
+                elif phase_status == "FAILED":
+                    icon = "[red]✗[/red]"
+                    status_style = "red"
+                else:
+                    icon = "[dim]○[/dim]"
+                    status_style = "dim"
+                
+                timeline.add_row(
+                    f"{icon} {phase_name}",
+                    Text(phase_status or "PENDING", style=status_style)
+                )
+        else:
+            timeline.add_row("[dim]No phase information available[/dim]", "")
         
-        # Event history
-        event_table = Table(show_header=True, box=box.SIMPLE, padding=(0, 1))
-        event_table.add_column("Time", style="dim")
+        # Event history table
+        event_table = Table(show_header=True, box=box.ROUNDED, padding=(0, 1), expand=False)
+        event_table.add_column("Time", style="dim cyan", no_wrap=True)
         event_table.add_column("Event", style="white")
         
-        for event in self.events[-10:]:  # Last 10 events
-            event_table.add_row(
-                event.timestamp.strftime("%H:%M:%S"),
-                event.message
-            )
+        if self.events:
+            for event in self.events[-8:]:  # Last 8 events
+                event_table.add_row(
+                    event.timestamp.strftime("%H:%M:%S"),
+                    event.message
+                )
+        else:
+            event_table.add_row("[dim]No events yet[/dim]", "")
         
-        # Build the layout
+        # Build the panel content using Group
+        content = Group(
+            header_text,
+            status_text,
+            Text(""),  # Empty line
+            Text("Build Phases:", style="bold white"),
+            timeline,
+            Text(""),  # Empty line
+            Text("Recent Events:", style="bold white"),
+            event_table
+        )
+        
+        # Build the main panel
         main_panel = Panel(
-            f"{header}\n{status_line}\n\n[bold]Build Phases:[/bold]\n{timeline}\n\n"
-            f"[bold]Recent Events:[/bold]\n{event_table}",
-            title="BuildWatchDog",
+            content,
+            title="[bold cyan]BuildWatchDog[/bold cyan]",
             border_style="cyan",
-            subtitle=f"Press Ctrl+C to quit | Interval: {self.interval}s"
+            subtitle=f"[dim]Press Ctrl+C to quit | Interval: {self.interval}s[/dim]"
         )
         
         return main_panel
