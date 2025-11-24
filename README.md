@@ -203,8 +203,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 
-- GitHub: [@](https://github.com/MuhammadTalhaTahir)
-- Issues: [GitHub Issues](https://github.com/MuhammadTalhaTahir/buildwatchdog/issues)
+- GitHub: [@MuhammadTalhaTahir](https://github.com/MuhammadTalhaTahir)
+- Issues: [GitHub Issues](https://github.com/MuhammadTalhaTahir/build-watch-dog/issues)
 
 ---
 
