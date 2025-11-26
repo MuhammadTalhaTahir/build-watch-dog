@@ -153,10 +153,10 @@ class BuildWatchDog:
         # Header section
         header_text = Text()
         header_text.append("BuildWatchDog", style="bold cyan")
-        header_text.append(" | Build: ", style="white")
-        header_text.append(f"{self.build_id[:20]}...", style="dim")
         header_text.append(" | Project: ", style="white")
         header_text.append(self.project_name, style="bold yellow")
+        header_text.append(" | Build: ", style="white")
+        header_text.append(self.build_id, style="dim")
         
         status_text = Text()
         status_text.append("Status: ", style="white")
